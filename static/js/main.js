@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	 // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();
-	
+	altura = $(document).height();
 	api = "http://api.openweathermap.org/data/2.5/";
 	endPoint = "APPID=231bdedaf245423d58c78e595650cfcb";
 	limiteCidades = 20;
@@ -88,7 +88,7 @@ $(document).ready(function(){
 	        center: latlng,
 	        mapTypeId: google.maps.MapTypeId.ROADMAP
 	    };
-	    $('#mapa').css('height',$(window).height())
+	    $('#mapa').css('height',altura)
 	    map = new google.maps.Map(document.getElementById("mapa"), options);
 
 		$.each(data['list'],function(index,cidade){
@@ -120,21 +120,27 @@ $(document).ready(function(){
 
 
 		function createModal(cidade){
-			alert('Modal deve ser exibido');
-			var diaHtml = '<li class="collection-item avatar">'+
-                '<img src="images/yuna.jpg" alt="" class="circle">'+
-                '<span class="title">Title</span>'+
-                '<p>First Line <br> Second Line </p>'+
-                '<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>'+
-              '</li>';
+			
+			
+
 			var url = api+"forecast/daily?lat="+cidade['coord']['lat']+"&lon="+cidade['coord']['lon']+"&units=metric&cnt=7&"+endPoint
 		    $.get(url, function(data) {
 			  var cidade = data['city'];
 			  var dias = data['list']
 			  $.each(dias,function(i,dia){
-				  console.log(dia);
+				  	var diaHtml = '<li class="collection-item avatar">'+
+	                '<img src="${imgUrl}" alt="" class="circle">'+
+	                '<span class="title">${data}</span>'+
+	                '<p>Temp. Máx: ${tempMax} <br> Temp. Min: ${tempMin} </p>'+
+	                '<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>'+
+	              '</li>';
+			  		console.log(dataFormatada(new Date(dia['dt']*1000)));
 				  var data = new Date(dia['dt']*1000)
 				  var img = "http://openweathermap.org/img/w/"+dia['weather'][0]['icon']+".png"
+				  diaHtml = diaHtml.replace('${imgUrl}',img)
+				  diaHtml = diaHtml.replace('${data}',dataFormatada(data))
+				  diaHtml = diaHtml.replace('${tempMax}',dia['temp']['max'])
+				  diaHtml = diaHtml.replace('${tempMin}',dia['temp']['min'])
 				  $('#previsaoDias').append(diaHtml); 
 			  });
 			})
