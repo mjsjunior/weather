@@ -20,6 +20,7 @@ $(document).ready(function(){
 	$('#buscarCidade').submit(function(){
 	
 		var cidade = $('#cidade').val();
+		$('#cidade').blur();
 		var urlBuscar = api+"weather?q="+cidade+"&units=metric&"+endPoint;
 		 $.get(urlBuscar, function(data) {
 			 if(data['cod'] == '404')
