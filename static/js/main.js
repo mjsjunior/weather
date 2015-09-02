@@ -102,6 +102,7 @@ $(document).ready(function(){
 		       labelClass: "labels", // the CSS class for the label
 		       labelStyle: {opacity: 0.75},
 	            map: map,
+	            animation: google.maps.Animation.DROP,
 	            icon: img
 		    });
 
@@ -116,6 +117,7 @@ $(document).ready(function(){
 
 		   marker.addListener('click', function() {
 				createModal(cidade);
+				toggleBounce();
 		  });
 		})
 
@@ -129,6 +131,10 @@ $(document).ready(function(){
 			  var cidade = data['city'];
 			  var dias = data['list']
 			  $.each(dias,function(i,dia){
+			  		if(i == 0)
+			  		{
+			  			$('#nivelMar').text('Pressão atmosférica: '+dia['pressure'])
+			  		}
 				  	var diaHtml = '<li class="collection-item avatar">'+
 	                '<img src="${imgUrl}" alt="" class="circle">'+
 	                '<span class="title">${data}</span>'+
@@ -152,6 +158,7 @@ $(document).ready(function(){
 			
 			
 			$('#nomeCidade').text(cidade['name']);
+
 			$('.modal-trigger').click();
 		}
 		
@@ -167,7 +174,13 @@ $(document).ready(function(){
 			return dia+"/"+mes+"/"+ano;
 		}
 	    
-	    
+	    function toggleBounce() {
+		  if (marker.getAnimation() !== null) {
+		    marker.setAnimation(null);
+		  } else {
+		    marker.setAnimation(google.maps.Animation.BOUNCE);
+		  }
+		}
 
 
 	    
