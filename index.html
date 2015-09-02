@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+    <meta charset="utf-8" />
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="stylesheet" href="static/css/style.css">
+ 
+    </head>
+    <body>
+    <div class="container">
+      <div class="row">
+        <div class="s12">
+          <div id="body">
+            <div class="col s12 m4">
+              <h4 style="text-align: center">Weather</h4>
+            </div>
+            <div class="col s12 m8">
+              <div class="input-field col s12">
+				<form id="buscarCidade" method="post" action="">
+                <input id="cidade" type="text" class="validate">
+                <label for="cidade">Digite uma cidade...</label>
+				</form>
+              </div>
+            </div>
+    <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="googlemaps">
+     <div id="mapa"></div>
+    </div>
+	
+	 <!-- Modal Trigger -->
+	  <a style="display:none" class="modal-trigger" href="#modal1">Modal</a>
+
+	  <!-- Modal Structure -->
+	  <div id="modal1" class="modal bottom-sheet">
+		<div class="modal-content">
+		  <h4 id="nomeCidade"></h4>
+		  <ul class="collection" id="previsaoDias">
+              <li class="collection-item avatar">
+                <img src="images/yuna.jpg" alt="" class="circle">
+                <span class="title">Title</span>
+                <p>First Line <br> Second Line </p>
+                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+              </li>
+            </ul>
+		</div>
+		<div class="modal-footer">
+		  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+		</div>
+	  </div>
+      
+
+      <!-- Maps API Javascript -->
+
+      <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD9Ba8nJ4F4AwzAjywNafT8WNKTMjLAYss&sensor=false"></script>	
+       <script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>			
+      <script type="text/javascript" src="static/js/jquery-1.11.3.min.js"></script>
+      <script type="text/javascript" src="static/js/materialize.min.js"></script>
+
+      <script type="text/javascript" src="static/js/main.js"></script>
+    </body>
+  </html>
