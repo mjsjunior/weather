@@ -1,5 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans:400,700);
+
 body{
-	background: #353432;
+  background: #353432;
 }
 
 #googlemaps { 
@@ -12,17 +14,55 @@ body{
 }
  
 #body { 
-  position: relative; 
-  z-index: 1; /* The z-index should be higher than Google Maps */
+    position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 1);
+  color: #000;
+  border-radius: 4px;
+  margin-top: 10px;
   width: 100%;
-  margin: 60px auto 0;
-  padding: 10px;
-  background: black;
-  height: auto;
-  opacity: .8; /* Set the opacity for a slightly transparent Google Form */ 
-  color: white;
+  max-width: 330px;
+  height: 50px;;
 }
+.labels {
+     color: #000;
+     background: transparent;
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 16px;
+     font-weight: bold;
+     white-space: nowrap;
+     display: none;
+   }
+
+
 
 .clear{
-	clear: both;
+  clear: both;
+}
+
+#imgAtual img{
+    width: 70px;
+    height: auto;
+    margin-top:-25px;
+    vertical-align: middle;
+}
+
+#tempAtual{
+  font-size: 20px;
+  font-style: none;
+  text-shadow: 1px 1px 1px #ccc;
+}
+.fa-sun-o{
+  color: #d3a61f;
+  font-size: 20px;
+  font-weight: 600;
+
+}
+
+.busca{
+  background: red;
+}
+
+input[type=text]{
+  height: 38px;
 }

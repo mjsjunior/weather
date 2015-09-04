@@ -6,30 +6,32 @@
       <link type="text/css" rel="stylesheet" href="static/css/materialize.min.css"  media="screen,projection"/>
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
       <link rel="stylesheet" href="static/css/style.css">
- 
+      <meta name="theme-color" content="#039be5">
     </head>
     <body>
-    <div class="container">
+  
       <div class="row">
-        <div class="s12">
+        <div class="col m3 s12">
           <div id="body">
-            <div class="col s12 m4">
-              <h4 style="text-align: center">Weather</h4>
-            </div>
-            <div class="col s12 m8">
-              <div class="input-field col s12">
-				<form id="buscarCidade" method="post" action="">
-                <input id="cidade" type="text" class="validate">
-                <label for="cidade">Digite uma cidade...</label>
-				</form>
+      				<form id="buscarCidade" method="post" action="">
+              <div class="col s2">
+                <a target="_blank"href="http://github.com/mjsjunior" style="
+    font-size: 35px;
+"><i class="fa fa-github"></i></a>
               </div>
-            </div>
-    <div class="clear"></div>
+                <div class="col s9">
+                  <input id="cidade" type="text" class="validate" placeholder="Digite uma cidade...">
+                  
+                </div>
+                
+      				</form>
           </div>
         </div>
       </div>
-    </div>
+    
+   
 
 
     <div id="googlemaps">
@@ -37,31 +39,63 @@
     </div>
 	
 	 <!-- Modal Trigger -->
-	  <a style="display:none" class="modal-trigger" href="#infoCidade"></a>
+	  <a style="display:none" class="modal-trigger" id="clickCidade" href="#infoCidade"></a>
 
 	  <!-- Modal Structure -->
 	  <div id="infoCidade" class="modal bottom-sheet">
 		<div class="modal-content">
+    <div class="row">
+      <div class="col s12 m6 offset-m3 center-align">
+        <h4 id="nomeCidade"></h4>
+        <small id="latlon"></small>
+      </div>
+    </div>
       <div class="row">
-        <div class="col s12 center-align">
-          <h4 id="nomeCidade"></h4>
-          <p id="nivelMar"></p>
+        <div class="col s6 offset-m4 m2 center-align">
+          <span id="imgAtual"><img src="http://openweathermap.org/img/w/03n.png" alt=""></span>
+          <span> <i id="tempAtual">22.7</i> ºC</span>
+        </div>
+        <div class="col s6 m2 center-align">
+          <span><i class="fa fa-sun-o"></i> <i class="fa fa-hand-o-up"></i> <span id="sunrise"></span></span><br>
+          <span><i class="fa fa-sun-o"></i> <i class="fa fa-hand-o-down"></i> <span id="sunset"></span></span>
         </div>
         
 		  </div>
-		  <ul class="collection" id="previsaoDias">   
-      </ul>
+      <div class="row">
+  		 <div class="offset-m3 col s12 m6">
+          <ul id="previsaoDias" class="collection">
+
+          </ul>
+        </div>
+      </div>
+   
 		</div>
 		<div class="modal-footer">
 		  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Finalizar ;)</a>
 		</div>
 	  </div>
       
+     <!-- Modal Trigger -->
+    <a style="display:none;" id="erro" class="modal-trigger" href="#erroModal">Modal</a>
+
+    <!-- Modal Structure -->
+    <div id="erroModal" class="modal">
+      <div class="modal-content">
+        <h4>Desculpe :(</h4>
+        <p>Tivemos um problema ao coletar informações desta cidade :/</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Sim, desculpo!</a>
+      </div>
+    </div>
+
+
+
 
       <!-- Maps API Javascript -->
 
       <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD9Ba8nJ4F4AwzAjywNafT8WNKTMjLAYss&sensor=false"></script>	
-       <script src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>			
+      <script type="text/javascript" src="static/js/markerwithlabel.js"></script>		
       <script type="text/javascript" src="static/js/jquery-1.11.3.min.js"></script>
       <script type="text/javascript" src="static/js/materialize.min.js"></script>
 
