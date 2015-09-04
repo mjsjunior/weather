@@ -41,6 +41,7 @@ $(document).ready(function(){
 	
 		var cidade = $('#cidade').val();
 		$('#cidade').blur();
+		//buscar cidade por nome
 		var urlBuscar = api+"weather?q="+cidade+"&units=metric&"+endPoint;
 		 $.get(urlBuscar, function(data) {
 			 if(data['cod'] == '404')
@@ -49,12 +50,14 @@ $(document).ready(function(){
 			 }else{
 				  var lat = data['coord']['lat'];
 				  var lon = data['coord']['lon']
+
+				  //busco a cidade vizinha das cidades encontradas
 					  var url = api+"find?lat="+lat+"&lon="+lon+"&cnt=15"+"&units=metric&"+endPoint
 						$.get(url, function(data) {
-						  var cidade = data['name'];			  
-						  var date = new Date(data['list'][0]['sys']['sunrise']);
+						  cidade = data['name'];			  
 						  var img = "http://openweathermap.org/img/w/"+data['list'][0]['weather'][0]['icon']+".png"
-						  montarApresentacao(lat,lon,cidade,date,img,data);
+						 //criar apresentacao com as informações coletadas
+						  montarApresentacao(lat,lon,img,data);
 						})
 						.fail(function() {
 							alert( "error" );
@@ -78,10 +81,8 @@ $(document).ready(function(){
 			 {
 				 alert('Erro ao montar o mapa...');
 			 }else{
-					  var cidade = data['name'];			  
-					  var date = new Date(data['list'][0]['sys']['sunrise']);
 					  var img = "http://openweathermap.org/img/w/"+data['list'][0]['weather'][0]['icon']+".png"
-					  montarApresentacao(lat,lon,cidade,date,img,data);
+					  montarApresentacao(lat,lon,img,data);
 					}
 				})
 			  
@@ -90,9 +91,9 @@ $(document).ready(function(){
 		  })  	
 	}
 
-	function montarApresentacao(lat,lon,cidade,date,img,data)
+	function montarApresentacao(lat,lon,img,data)
 	{
-
+		//criação do mapa na cidade solicitada
 		var latlng = new google.maps.LatLng(lat,lon);
 	    var options = {
 	        zoom: 11,
@@ -112,51 +113,53 @@ $(document).ready(function(){
 		      position: google.maps.ControlPosition.RIGHT_CENTER
 		    }
 	    };
+	    //preenche altura da tela
 	    $('#mapa').css('height',altura)
 	    map = new google.maps.Map(document.getElementById("mapa"), options);
 
+	    //Marca todas as cidades vizinhas da cidade solicitada
 		$.each(data['list'],function(index,cidade){
 			var img = "http://openweathermap.org/img/w/"+cidade['weather'][0]['icon']+".png"
-			
 			var marker = new google.maps.Marker({
 	            position: new google.maps.LatLng(cidade['coord']['lat'],cidade['coord']['lon']),
-	     
 	            map: map,
 	            animation: google.maps.Animation.DROP,
 	            icon: img
 		    });
-
-			
+			// add ouvinte para criar modal quando é clicado
 		   marker.addListener('click', function() {
 				createModal(cidade);
-			
 		  });
 		})
 
 
 		function createModal(cidade){
+			//Limpa a caixa de previsao
 			$('#previsaoDias').empty();
-			var url = api+"weather?id="+cidade['id']+"&units=metric&"+endPoint
-			//var url = api+"weather?q="+cidade['nome']+"&units=metric&"+endPoint
+			//var url = api+"weather?id="+cidade['id']+"&units=metric&"+endPoint
+			var url = api+"weather?q="+cidade['name']+"&units=metric&"+endPoint
 			$.get(url,function(data){
 				if(data['cod'] != '404')
 				{
+					//Monta informações atuais da cidade
 				 	sunrise = datahorario(new Date(data['sys']['sunrise']*1000));
 				 	sunset = datahorario(new Date(data['sys']['sunset']*1000));
 				 	name = data['name']
 				 	temp = data['main']['temp']
 
-				 	
-				 	url = api+"forecast/daily?id="+cidade['id']+"&units=metric&cnt=7&"+endPoint
-				 	//url = api+"forecast/daily?q="+cidade['name']+"&units=metric&cnt=7&"+endPoint
+
+				 	//url = api+"forecast/daily?id="+cidade['id']+"&units=metric&cnt=7&"+endPoint
+				 	url = api+"forecast/daily?q="+name+"&units=metric&cnt=7&"+endPoint
+				   //Faz busca para os 7 dias
 				    $.get(url, function(data) {
-				    		console.log(data)
-					  var cidade = data['city'];
-					  var dias = data['list']
+			    		console.log(data)
+				  		var cidade = data['city'];
+					  	var dias = data['list']
 						  if(data['cod'] == '404'){
 						  	$('#erro').click();
 						  }else{
 						  	  $('#nomeCidade').text(name);
+						  	  //Percorre todos os dias encontrados e adiciona na ul da modal
 							  $.each(dias,function(i,dia){
 							  		var diaHtml = '<li class="collection-item avatar">'+
 						                '<img src="${imgUrl}" alt="" class="circle">'+
@@ -168,6 +171,8 @@ $(document).ready(function(){
 							  		if(i != 0)
 							  		{  	
 								  	  console.log(dataFormatada(new Date(dia['dt']*1000)));
+								  	  console.log(dia)
+								  	  console.log('-----')
 									  var data = new Date(dia['dt']*1000)
 									  var img = "http://openweathermap.org/img/w/"+dia['weather'][0]['icon']+".png"
 									  diaHtml = diaHtml.replace('${imgUrl}',img)
@@ -178,6 +183,7 @@ $(document).ready(function(){
 									  $('#previsaoDias').append(diaHtml); 
 									}
 							 	 });
+								  //Exibe informações atuais e abre modal
 							    	$('#latlon').text('Lat: '+cidade['coord']['lat']+' ; Lon: '+cidade['coord']['lon'])
 									$('#sunrise').text(sunrise);
 									$('#sunset').text(sunset);
